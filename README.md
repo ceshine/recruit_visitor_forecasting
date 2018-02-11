@@ -65,7 +65,7 @@ The training scripts use [Sacred](http://sacred.readthedocs.io/en/latest/) to ma
 python fit_transformer.py with seed=12300
 ```
 
-(To give you an rough idea of how a single model performs, the above command created a model with Public 0.488 / Private 0.517. Sorry for now its not exactly reproducible.)
+(To give you an rough idea of how a single model performs, the above command created a model with **Public 0.488 / Private 0.517**. Sorry for now it's not exactly reproducible.)
 
 You can also use Mongo to save experiment results and hyper-parameters for each run. Please refer to the Sacred documentation for more details.
 
