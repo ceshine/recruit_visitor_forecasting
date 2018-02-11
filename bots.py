@@ -48,7 +48,7 @@ class BaseBot:
             self.train_dataset.stds).float().cuda()
         self.model = None
         self.criterion = MaskedMSELoss()
-        self.init_logging("./cache/logs/")
+        self.init_logging("./cache/logs/", debug=True)
 
     def init_logging(self, log_dir, debug=False):
         Path(log_dir).mkdir(exist_ok=True)
@@ -127,10 +127,16 @@ class BaseBot:
             for i in range(n_epochs):
                 self.logger.info(
                     "=" * 20 + "Epoch {}".format(i + 1) + "=" * 20)
+                flag = False
                 for tensors in train_loader:
                     self.model.train()
                     assert self.model.training
                     x, x_d, x_i, y, x_means = self.prepare_batch(tensors)
+                    if flag is False:
+                        self.logger.debug(
+                            "Last timestep for dim 0: [%s]",
+                            ", ".join(["%.2f" % _ for _ in x[:, -1, 0].data.cpu().numpy()]))
+                        flag = True
                     optimizer.zero_grad()
                     output = self.model(
                         x, x_d, x_i, **self.get_model_params(step))
